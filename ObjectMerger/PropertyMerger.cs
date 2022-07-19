@@ -9,10 +9,10 @@ public class PropertyMerger
         var ps = properties.Select(p => new KeyValuePair<string, object?>(p, null));
         return CreateDynamicObject(className, ps);
     }
-    public static ExpandoObject MergeWithList<T>(T t, string newClassName, IEnumerable<string> properties, IEnumerable<string>? tecludedProperies = null)
+    public static ExpandoObject MergeWithList<T>(T t, string newClassName, IEnumerable<string> properties, IEnumerable<string>? excludedProperies = null)
     {
         var dt = CreateFromList(properties);
-        return ObjectMerge(t, dt, newClassName, tecludedProperies);
+        return ObjectMerge(t, dt, newClassName, excludedProperies);
     }
     public static ExpandoObject ObjectMerge<T1, T2>(T1 t1, T2 t2, string newClassName, IEnumerable<string>? t1ExcludedProperies = null, IEnumerable<string>? t2ExcludedProperies = null)
     {
