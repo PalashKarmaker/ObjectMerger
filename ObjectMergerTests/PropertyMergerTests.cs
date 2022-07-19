@@ -31,6 +31,16 @@ namespace ObjectMerger.Tests
             dynamic obj = PropertyMerger.ObjectMerge(m1, m2, "Dhoom");
             Assert.IsTrue(obj.Name == m1.Name);
         }
+
+        [TestMethod()]
+        public void MergeWithListTest()
+        {
+            var ps = new string[] { "Prop1", "Prop2" };
+            dynamic obj = PropertyMerger.MergeWithList(m1, "Pivoted", ps);
+            var testValue = "Palash";
+            PropertyMerger.AssignProperties(obj, new KeyValuePair<string, object?>[] { new(ps[0], testValue) });
+            Assert.AreEqual(obj.Prop1, testValue);
+        }
     }
     public class Model1
     {

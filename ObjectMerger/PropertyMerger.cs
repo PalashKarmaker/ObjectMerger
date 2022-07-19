@@ -4,6 +4,16 @@ namespace ObjectMerger;
 
 public class PropertyMerger
 {
+    public static ExpandoObject CreateFromList(IEnumerable<string> properties, string className = "Detail")
+    {
+        var ps = properties.Select(p => new KeyValuePair<string, object?>(p, null));
+        return CreateDynamicObject(className, ps);
+    }
+    public static ExpandoObject MergeWithList<T>(T t, string newClassName, IEnumerable<string> properties, IEnumerable<string>? tecludedProperies = null)
+    {
+        var dt = CreateFromList(properties);
+        return ObjectMerge(t, dt, newClassName, tecludedProperies);
+    }
     public static ExpandoObject ObjectMerge<T1, T2>(T1 t1, T2 t2, string newClassName, IEnumerable<string>? t1ExcludedProperies = null, IEnumerable<string>? t2ExcludedProperies = null)
     {
         var ps = new Dictionary<string, object?>[] { GetProperties(t1, t1ExcludedProperies), GetProperties(t2, t2ExcludedProperies) };
@@ -25,7 +35,7 @@ public class PropertyMerger
         return obj;
     }
 
-    private static void AssignProperties(ExpandoObject obj, IEnumerable<KeyValuePair<string, object?>> properties)
+    public static void AssignProperties(ExpandoObject obj, IEnumerable<KeyValuePair<string, object?>> properties)
     {
         foreach (var item in properties)
             ((IDictionary<string, object?>)obj)[item.Key] = item.Value;
