@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
 		<TargetFramework>net8.0</TargetFramework>
@@ -7,8 +7,8 @@
 		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
 		<Title>ObjectMerger</Title>
 		<PackageProjectUrl>https://github.com/PalashKarmaker/ObjectMerger</PackageProjectUrl>
-		<FileVersion>1.1.0.0</FileVersion>
-		<AssemblyVersion>1.1.0.0</AssemblyVersion>
+		<FileVersion>1.1.0.1</FileVersion>
+		<AssemblyVersion>1.1.0.1</AssemblyVersion>
 		<Version>$(AssemblyVersion)</Version>
 	</PropertyGroup>
 
