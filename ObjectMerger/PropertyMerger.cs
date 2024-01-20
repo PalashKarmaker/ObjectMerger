@@ -2,28 +2,28 @@
 
 namespace ObjectMerger;
 
-public class PropertyMerger
+public static class PropertyMerger
 {
     public static ExpandoObject CreateFromList(IEnumerable<string> properties, string className = "Detail")
     {
         var ps = properties.Select(p => new KeyValuePair<string, object?>(p, null));
         return CreateDynamicObject(className, ps);
     }
-    public static ExpandoObject MergeWithList<T>(T t, string newClassName, IEnumerable<string> properties, IEnumerable<string>? excludedProperies = null)
+    public static ExpandoObject MergeWithList<T>(T t, string newClassName, IEnumerable<string> properties, IEnumerable<string>? excludedProperties = null)
     {
         var dt = CreateFromList(properties);
-        return ObjectMerge(t, dt, newClassName, excludedProperies);
+        return ObjectMerge(t, dt, newClassName, excludedProperties);
     }
-    public static ExpandoObject ObjectMerge<T1, T2>(T1 t1, T2 t2, string newClassName, IEnumerable<string>? t1ExcludedProperies = null, IEnumerable<string>? t2ExcludedProperies = null)
+    public static ExpandoObject ObjectMerge<T1, T2>(T1 t1, T2 t2, string newClassName, IEnumerable<string>? t1excludedProperties = null, IEnumerable<string>? t2excludedProperties = null)
     {
-        var ps = new Dictionary<string, object?>[] { GetProperties(t1, t1ExcludedProperies), GetProperties(t2, t2ExcludedProperies) };
+        var ps = new Dictionary<string, object?>[] { GetProperties(t1, t1excludedProperties), GetProperties(t2, t2excludedProperties) };
         var properties = ps.SelectMany(dict => dict);
         return CreateDynamicObject(newClassName, properties);
     }
 
-    public static Dictionary<string, object?> GetProperties<T>(T t, IEnumerable<string>? excludedProperies = null) =>
-        t.GetType().GetProperties()
-        .Where(p => excludedProperies == null || !excludedProperies.Contains(p.Name))
+    public static Dictionary<string, object?> GetProperties<T>(T t, IEnumerable<string>? excludedProperties = null) =>
+        typeof(T).GetProperties()
+        .Where(p => excludedProperties == null || !excludedProperties.Contains(p.Name))
         .ToDictionary(k => k.Name, v => v.GetValue(t));
 
     public static ExpandoObject CreateDynamicObject(string className,

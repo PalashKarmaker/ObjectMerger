@@ -11,13 +11,13 @@ namespace ObjectMerger.Tests
     [TestClass()]
     public class PropertyMergerTests
     {
-        Model1 m1;
-        Model2 m2;
+        Model1 m1 = new();
+        Model2 m2 = new();
         [TestInitialize]
         public void Init()
         {
-            m1 = new() { Name = "Boom" };
-            m2 = new() { Name2 = "Shaka Laka" };
+            m1 = new() { Name = "Test Name 123" };
+            m2 = new() { Name2 = "Test Name" };
         }
         [TestMethod()]
         public void CreateDynamicObjectTest()
@@ -28,7 +28,7 @@ namespace ObjectMerger.Tests
         [TestMethod()]
         public void ObjectMergeTest()
         {
-            dynamic obj = PropertyMerger.ObjectMerge(m1, m2, "Dhoom");
+            dynamic obj = PropertyMerger.ObjectMerge(m1, m2, "Tested Named Object");
             Assert.IsTrue(obj.Name == m1.Name);
         }
 
@@ -38,16 +38,17 @@ namespace ObjectMerger.Tests
             var ps = new string[] { "Prop1", "Prop2" };
             dynamic obj = PropertyMerger.MergeWithList(m1, "Pivoted", ps);
             var testValue = "Palash";
-            PropertyMerger.AssignProperties(obj, new KeyValuePair<string, object?>[] { new(ps[0], testValue) });
+            var lst = new KeyValuePair<string, object?>[] { new(ps[0], testValue) };
+            PropertyMerger.AssignProperties(obj, lst);
             Assert.AreEqual(obj.Prop1, testValue);
         }
     }
     public class Model1
     {
-        public string Name { get; set; }
+        public string Name { get; set; } = string.Empty;
     }
     public class Model2
     {
-        public string Name2 { get; set; }
+        public string Name2 { get; set; } = string.Empty;
     }
 }
